@@ -8,25 +8,10 @@ const app = express();
 require("dotenv").config();
 
 // Allowed origins
-const allowedOrigins = ['http://localhost:5173', 'https://isway.netlify.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://zamway.netlify.app'];
 
 // CORS middleware
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, origin);
-    } else {
-      callback(new Error('CORS not allowed from this origin'));
-    }
-  },
-  credentials: true, // Include cookies and headers in requests
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-}));
-
-// Handle preflight (OPTIONS) requests globally
-app.options('*', cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, origin);
@@ -36,11 +21,13 @@ app.options('*', cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json()); // Body parsing
+// Body parsing
+app.use(express.json());
 
+// Routes
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 
