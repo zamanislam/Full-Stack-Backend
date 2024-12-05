@@ -19,7 +19,7 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // If you need cookies/auth headers
+ 
 }));
 
 app.use(express.json()); // Body parsing
